@@ -17,16 +17,28 @@
     <pre id="out">Click "Load Range JSON"</pre>
 
     <script>
-      const out = document.getElementById("out");
-      document.getElementById("load").addEventListener("click", async () => {
-        try {
-          const res = await fetch("./ranges/v1_cash_6max_100bb.json");
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const data = await res.json();
-          out.textContent = JSON.stringify(data.ranges.open.BTN.raise, null, 2);
-        } catch (e) {
-          out.textContent = "FAILED to load JSON: " + e.message;
+      const rangeData = {
+        "format": "cash",
+        "players": "6max",
+        "stack_bb": 100,
+        "ranges": {
+          "open": {
+            "BTN": {
+              "raise": [
+                "22+","A2s+","K2s+","Q5s+","J7s+","T7s+","97s+",
+                "87s","76s","65s","54s",
+                "A2o+","K7o+","Q9o+","J9o+","T9o"
+              ],
+              "call": [],
+              "fold": []
+            }
+          }
         }
+      };
+
+      const out = document.getElementById("out");
+      document.getElementById("load").addEventListener("click", () => {
+        out.textContent = JSON.stringify(rangeData.ranges.open.BTN.raise, null, 2);
       });
     </script>
   </body>
