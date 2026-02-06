@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poker Range Trainer</title>
+    <style>
+      body { font-family: -apple-system, system-ui, Arial, sans-serif; padding: 16px; }
+      pre { background: #111; color: #0f0; padding: 12px; border-radius: 8px; overflow: auto; }
+      button { padding: 12px 14px; font-size: 16px; border-radius: 10px; }
+    </style>
+  </head>
+  <body>
+    <h1>Poker Range Trainer</h1>
+    <p>If you see your BTN open range below, the JSON is loading correctly.</p>
+    <button id="load">Load Range JSON</button>
+    <pre id="out">Click "Load Range JSON"</pre>
+
+    <script>
+      const out = document.getElementById("out");
+      document.getElementById("load").addEventListener("click", async () => {
+        try {
+          const res = await fetch("./ranges/v1_cash_6max_100bb.json");
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          out.textContent = JSON.stringify(data.ranges.open.BTN.raise, null, 2);
+        } catch (e) {
+          out.textContent = "FAILED to load JSON: " + e.message;
+        }
+      });
+    </script>
+  </body>
+</html>
